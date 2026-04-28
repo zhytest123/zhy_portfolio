@@ -1,0 +1,83 @@
+import { motion } from "framer-motion";
+import React from "react";
+import { RiBriefcase4Fill } from "react-icons/ri";
+import { Tilt } from "react-tilt";
+import { services } from "../constants";
+import { SectionWrapper } from "../hoc";
+import useMagnetic from "../reactbits/hooks/useMagnetic";
+import { styles } from "../styles";
+import { fadeIn, textVariant } from "../utils/motion";
+
+const ServiceCard = ({ index, title, icon }) => (
+  <Tilt className="xs:w-[255px] w-full">
+    <motion.div
+      variants={fadeIn("right", "spring", index * 0.5, 0.75)}
+      className="w-full green-pink-gradient p-[1px] rounded-[20px] shadow-card"
+    >
+      <div
+        options={{
+          max: 45,
+          scale: 1,
+          speed: 450,
+        }}
+        className="bg-[#111522] rounded-[20px] py-5 px-12 min-h-[280px] flex justify-evenly items-center flex-col"
+      >
+        <img
+          src={icon}
+          alt="web-development"
+          className="w-16 h-16 object-contain"
+        />
+
+        <h3 className="text-white text-[20px] font-bold text-center">
+          {title}
+        </h3>
+      </div>
+    </motion.div>
+  </Tilt>
+);
+
+const About = () => {
+  const { ref: resumeButtonRef, style: magneticStyle } = useMagnetic({
+    radius: 100,
+    strength: 0.3,
+  });
+
+  return (
+    <>
+      <motion.div variants={textVariant()}>
+        <p className={styles.sectionSubText}>介绍</p>
+        <h2 className={styles.sectionHeadText}>概述。</h2>
+      </motion.div>
+
+      <motion.p
+        variants={fadeIn("", "", 0.1, 1)}
+        className="mt-4 text-secondary text-[17px] max-w-3xl leading-[30px]"
+      >
+        我是张恒钰(jacky zhang)。一名技术爱好者，拥有算法研发，前后端开发，数据开发，网络安全，工程计算程序设计等项目经验，我致力于构建高效、可扩展且用户友好的方案来解决实际问题。让我们一起合作，将想法变为现实！
+      </motion.p>
+      <button
+        ref={resumeButtonRef}
+        style={magneticStyle}
+        className="mt-10 px-6 py-3 text-white bg-gradient-to-r from-cyan-500 to-indigo-500 rounded-md shadow-md hover:bg-gradient-to-r hover:from-cyan-600 hover:to-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
+        onClick={() =>
+          window.open(
+            "https://cn.bing.com/search?q=%E5%8D%8E%E4%B8%9C%E7%90%86%E5%B7%A5%E5%A4%A7%E5%AD%A6%E5%BC%A0%E6%81%92%E9%92%B0+zhy19228132823",
+            "_blank"
+          )
+        }
+      >
+        <span className="font-semibold flex gap-1.5 items-center">
+          <RiBriefcase4Fill />
+          下载简历
+        </span>
+      </button>
+      <div className="mt-12 flex flex-wrap gap-10">
+        {services.map((service, index) => (
+          <ServiceCard key={service.title} index={index} {...service} />
+        ))}
+      </div>
+    </>
+  );
+};
+
+export default SectionWrapper(About, "about");
